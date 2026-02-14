@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Invoice Generator</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <div th:replace="~{fragments/header :: header}"></div>
+        <h1>Settings</h1>
+        
+        <div class="form-section">
+            <h3>Data Export</h3>
+            <p>Export all application data to an Excel file. This includes Users, Clients, Invoices, and all related data.</p>
+            <div class="actions">
+                <a th:href="@{/settings/export}" class="btn btn-primary" download>Export All Data to Excel</a>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Copyright © KVR Associates</p>
+        </div>
+    </div>
+    
+    <script th:replace="~{fragments/header :: menuScript}"></script>
+</body>
+</html>

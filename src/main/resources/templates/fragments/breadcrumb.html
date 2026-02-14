@@ -1,0 +1,11 @@
+<div th:fragment="breadcrumb" class="breadcrumb">
+    <div class="breadcrumb-nav">
+        <a th:href="@{/invoice/new}">New Invoice</a>
+        <a th:href="@{/invoices}">All Invoices</a>
+        <a th:href="@{/user/profile}">My Profile</a>
+    </div>
+    <div class="breadcrumb-user">
+        <span th:text="${session.username}"></span>
+        <a th:href="@{/user/logout}" style="margin-left: 15px;">Logout</a>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Invoices</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <div th:replace="~{fragments/header :: header}"></div>
+        <h1>All Invoices</h1>
+        
+        <div style="margin-bottom: 20px; padding: 15px; background: #f5f5f5; border-radius: 8px;">
+            <form method="get" th:action="@{/invoices}">
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: end;">
+                    <div style="flex: 1; min-width: 200px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Invoice Number:</label>
+                        <input type="text" name="invoiceNumber" th:value="${invoiceNumber}" placeholder="Search by invoice number" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Start Date:</label>
+                        <input type="date" name="startDate" th:value="${startDate}" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">End Date:</label>
+                        <input type="date" name="endDate" th:value="${endDate}" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="flex: 0.5; min-width: 100px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Year:</label>
+                        <input type="number" name="year" th:value="${year}" placeholder="YYYY" min="2000" max="2100" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="flex: 1; min-width: 150px;">
+                        <label style="display: block; margin-bottom: 5px; font-weight: bold;">Biller:</label>
+                        <select name="toName" style="width: 100%; padding: 8px;">
+                            <option value="">-- All Billers --</option>
+                            <option th:each="client : ${clients}" th:value="${client.clientName}" th:text="${client.clientName}" th:selected="${toName == client.clientName}"></option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary">Search</button>
+                        <a th:href="@{/invoices}" class="btn">Clear</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Invoice No</th>
+                    <th>Date</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Grand Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="invoice : ${invoices}">
+                    <td th:text="${invoice.invoiceNumber}"></td>
+                    <td th:text="${invoice.invoiceDate}"></td>
+                    <td th:text="${invoice.fromName}"></td>
+                    <td th:text="${invoice.toName}"></td>
+                    <td th:text="'₹' + ${#numbers.formatDecimal(invoice.grandTotal, 1, 2)}"></td>
+                    <td>
+                        <a th:href="@{/invoice/{id}(id=${invoice.id})}" class="btn btn-small">View</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="footer">
+            <p>Copyright © KVR Associates</p>
+        </div>
+    </div>
+    <script th:replace="~{fragments/header :: menuScript}"></script>
+</body>
+</html>

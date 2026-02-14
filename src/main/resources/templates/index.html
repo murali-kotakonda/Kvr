@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Invoice Generator</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="breadcrumb">
+            <div class="breadcrumb-nav">
+                <a th:href="@{/invoice/new}">New Invoice</a>
+                <a th:href="@{/invoices}">All Invoices</a>
+                <a th:href="@{/clients}">Clients</a>
+                <a th:href="@{/user/list}">Users</a>
+            </div>
+            <div class="breadcrumb-user">
+                <span th:text="${session.username}"></span>
+                <a th:href="@{/user/logout}" style="margin-left: 15px;">Logout</a>
+            </div>
+        </div>
+        <h1>Invoice Generator Dashboard</h1>
+        <div class="menu">
+            <a th:href="@{/invoice/new}" class="btn">Create New Invoice</a>
+            <a th:href="@{/invoices}" class="btn">View All Invoices</a>
+            <a th:href="@{/clients}" class="btn">Manage Clients</a>
+            <a th:href="@{/user/profile}" class="btn btn-primary">My Profile</a>
+        </div>
+        <div class="footer">
+            <p>Copyright © KVR Associates</p>
+        </div>
+    </div>
+</body>
+</html>

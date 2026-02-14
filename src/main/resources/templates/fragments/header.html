@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <!-- Header Fragment -->
+    <div th:fragment="header">
+        <div class="breadcrumb">
+            <div class="breadcrumb-nav">
+                <a th:href="@{/invoice/new}">New Invoice</a>
+                <a th:href="@{/invoices}">All Invoices</a>
+                <a th:href="@{/clients}">Clients</a>
+                <a th:if="${session.userType == 'admin'}" th:href="@{/user/list}">Users</a>
+            </div>
+            <div class="breadcrumb-user">
+                <div style="display: flex; align-items: center; gap: 10px; position: relative;">
+                    <span th:text="${session.username}" style="font-weight: 500;"></span>
+                    <button onclick="toggleMenu()" style="padding: 8px 12px; cursor: pointer; background: #6366f1; color: white; border: none; border-radius: 50%; font-size: 18px; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; transition: background 0.3s;">⚙</button>
+                    <div id="userMenu" style="display: none; position: absolute; top: 45px; right: 0; background: white; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 160px; z-index: 1000;">
+                        <a th:href="@{/user/profile}" style="display: block; padding: 12px 16px; text-decoration: none; color: #333; border-bottom: 1px solid #eee; transition: background 0.2s;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">My Profile</a>
+                        <a th:if="${session.userType == 'admin'}" th:href="@{/settings}" style="display: block; padding: 12px 16px; text-decoration: none; color: #333; border-bottom: 1px solid #eee; transition: background 0.2s;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">Settings</a>
+                        <a th:href="@{/user/logout}" style="display: block; padding: 12px 16px; text-decoration: none; color: #dc2626; transition: background 0.2s;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='white'">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Menu Script Fragment -->
+    <script th:fragment="menuScript">
+        function toggleMenu() {
+            const menu = document.getElementById('userMenu');
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+        }
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('userMenu');
+            const button = event.target.closest('button');
+            if (!button && menu.style.display === 'block') {
+                menu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

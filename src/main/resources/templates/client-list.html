@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Clients</h1>
+        <a href="/client/new" class="btn">Add New Client</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="client : ${clients}">
+                    <td th:text="${client.name}"></td>
+                    <td th:text="${client.phoneNumber}"></td>
+                    <td th:text="${client.email}"></td>
+                    <td th:text="${client.city}"></td>
+                    <td th:text="${client.state}"></td>
+                    <td>
+                        <a th:href="@{/client/{id}(id=${client.id})}" class="btn btn-small">View</a>
+                        <a th:href="@{/client/edit/{id}(id=${client.id})}" class="btn btn-small">Edit</a>
+                        <button onclick="deleteClient(${client.id})" class="btn btn-small remove-btn">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="/" class="btn">Home</a>
+    </div>
+    <script>
+        async function deleteClient(id) {
+            if (confirm('Are you sure you want to delete this client?')) {
+                await fetch(`/api/client/${id}`, { method: 'DELETE' });
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

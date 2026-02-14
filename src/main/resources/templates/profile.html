@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Invoice Generator</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <div th:replace="~{fragments/header :: header}"></div>
+        <h1>User Profile</h1>
+        <div class="form-section">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>User ID</label>
+                    <input type="text" th:value="${user.id}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" th:value="${user.username}" readonly>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" th:value="${user.firstName}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" th:value="${user.lastName}" readonly>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Account Created</label>
+                    <input type="text" th:value="${user.insertTms}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Last Updated</label>
+                    <input type="text" th:value="${user.updatedTms}" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="actions">
+            <a th:href="@{/user/reset-password}" class="btn">Reset Password</a>
+            <a th:if="${session.userType == 'admin'}" th:href="@{/user/list}" class="btn btn-primary">Manage Users</a>
+        </div>
+        <div class="footer">
+            <p>Copyright © KVR Associates</p>
+        </div>
+    </div>
+    <script th:replace="~{fragments/header :: menuScript}"></script>
+</body>
+</html>

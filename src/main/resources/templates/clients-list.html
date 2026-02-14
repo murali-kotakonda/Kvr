@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients - Invoice Generator</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <div th:replace="~{fragments/header :: header}"></div>
+        <h1>Manage Clients</h1>
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <form method="get" th:action="@{/clients}" style="display: flex; gap: 10px;">
+                <input type="text" name="search" th:value="${search}" placeholder="Search by client name" style="padding: 8px; width: 300px;">
+                <button type="submit" class="btn">Search</button>
+                <a th:href="@{/clients}" class="btn">Clear</a>
+            </form>
+            <a th:href="@{/clients/new}" class="btn btn-primary">Add New Client</a>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Client Name</th>
+                    <th>Email</th>
+                    <th>GSTIN</th>
+                    <th>Phone</th>
+                    <th>Mobile</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="client : ${clients}">
+                    <td th:text="${client.clientName}"></td>
+                    <td th:text="${client.emailId}"></td>
+                    <td th:text="${client.gstin}"></td>
+                    <td th:text="${client.phoneNumber}"></td>
+                    <td th:text="${client.mobileNumber}"></td>
+                    <td>
+                        <a th:href="@{/clients/view/{id}(id=${client.id})}" class="btn btn-small">View</a>
+                        <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="btn btn-small">Edit</a>
+                        <a th:href="@{/clients/delete/{id}(id=${client.id})}" class="btn btn-small remove-btn" 
+                           onclick="return confirm('Are you sure you want to delete this client?')">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="footer">
+            <p>Copyright © KVR Associates</p>
+        </div>
+    </div>
+    <script th:replace="~{fragments/header :: menuScript}"></script>
+</body>
+</html>

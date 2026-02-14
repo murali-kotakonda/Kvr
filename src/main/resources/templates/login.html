@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Invoice Generator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .login-container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); width: 100%; max-width: 400px; }
+        h2 { text-align: center; color: #333; margin-bottom: 30px; font-size: 28px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; color: #555; font-weight: 600; }
+        input { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 14px; transition: border 0.3s; }
+        input:focus { outline: none; border-color: #667eea; }
+        button { width: 100%; padding: 14px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 0.2s; }
+        button:hover { transform: translateY(-2px); }
+        .error { color: #dc3545; margin-top: 15px; padding: 10px; background: #f8d7da; border-radius: 6px; text-align: center; }
+        .app-title { text-align: center; color: white; margin-bottom: 20px; font-size: 32px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div>
+        <h1 class="app-title">KVR Associates</h1>
+        <div class="login-container">
+            <h2>Welcome Back</h2>
+            <form method="post" th:action="@{/user/login}">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" placeholder="Enter your username" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <p class="error" th:if="${error}" th:text="${error}"></p>
+        </div>
+    </div>
+</body>
+</html>

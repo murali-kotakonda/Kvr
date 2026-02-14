@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logged Out - Invoice Generator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .logout-container { background: white; padding: 50px; border-radius: 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); text-align: center; max-width: 500px; }
+        h1 { color: #28a745; margin-bottom: 20px; font-size: 32px; }
+        p { color: #666; margin-bottom: 30px; font-size: 16px; }
+        .btn { display: inline-block; padding: 14px 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: 600; transition: transform 0.2s; }
+        .btn:hover { transform: translateY(-2px); }
+        .icon { font-size: 60px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <div class="icon">✓</div>
+        <h1>Successfully Logged Out</h1>
+        <p>Thank you, <strong th:text="${username}"></strong>! You have been securely logged out.</p>
+        <a th:href="@{/user/login}" class="btn">Login Again</a>
+    </div>
+</body>
+</html>
