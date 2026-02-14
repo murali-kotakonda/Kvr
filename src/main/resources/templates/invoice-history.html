@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice History</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <div th:replace="~{fragments/header :: header}"></div>
+        <h1>Invoice History</h1>
+        
+        <div class="form-section">
+            <h3>Invoice: <span th:text="${invoice.invoiceNumber}"></span></h3>
+            <p><strong>Current Status:</strong> Active</p>
+        </div>
+        
+        <div class="form-section">
+            <h3>Audit Trail</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Action</th>
+                        <th>User</th>
+                        <th>Changes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="log : ${history}">
+                        <td th:text="${log.timestamp}"></td>
+                        <td th:text="${log.action}"></td>
+                        <td th:text="${log.username}"></td>
+                        <td th:text="${log.changes}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="actions">
+            <a th:href="@{/invoice/{id}(id=${invoice.id})}" class="btn">Back to Invoice</a>
+            <a th:href="@{/invoices}" class="btn btn-primary">All Invoices</a>
+        </div>
+        
+        <div class="footer">
+            <p>Copyright © KVR Associates</p>
+        </div>
+    </div>
+    <script th:replace="~{fragments/header :: menuScript}"></script>
+</body>
+</html>

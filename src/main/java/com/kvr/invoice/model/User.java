@@ -29,7 +29,7 @@ public class User {
     private String gstin;
     
     @Column(nullable = false)
-    private String userType = "user";
+    private String userType = "operator"; // admin, accountant, operator
     
     @Column(nullable = false)
     private Integer failCount = 0;

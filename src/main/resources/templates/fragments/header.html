@@ -11,6 +11,7 @@
                 <a th:href="@{/invoice/new}">New Invoice</a>
                 <a th:href="@{/invoices}">All Invoices</a>
                 <a th:href="@{/clients}">Clients</a>
+                <a th:if="${session.userType == 'admin' || session.userType == 'accountant'}" th:href="@{/analytics}">Analytics</a>
                 <a th:if="${session.userType == 'admin'}" th:href="@{/user/list}">Users</a>
             </div>
             <div class="breadcrumb-user">

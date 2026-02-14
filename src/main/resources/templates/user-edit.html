@@ -43,9 +43,9 @@
                     <div class="form-group">
                         <label>User Type</label>
                         <select name="userType" style="width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px;">
-                            <option value="user" th:selected="${user.userType == 'user'}">User</option>
+                            <option value="operator" th:selected="${user.userType == 'operator'}">Operator</option>
+                            <option value="accountant" th:selected="${user.userType == 'accountant'}">Accountant</option>
                             <option value="admin" th:selected="${user.userType == 'admin'}">Admin</option>
-                            <option value="client" th:selected="${user.userType == 'client'}">Client</option>
                         </select>
                     </div>
                 </div>

@@ -1,12 +1,11 @@
 package com.kvr.invoice.controller;
 
 import com.kvr.invoice.model.Invoice;
-import com.kvr.invoice.service.InvoiceService;
-import com.kvr.invoice.service.UserService;
-import com.kvr.invoice.service.ClientService;
-import com.kvr.invoice.service.AddressService;
+import com.kvr.invoice.service.*;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +20,8 @@ public class InvoiceController {
     private final UserService userService;
     private final ClientService clientService;
     private final AddressService addressService;
+    private final AuditService auditService;
+    private final PdfService pdfService;
     
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session) {
@@ -45,8 +46,10 @@ public class InvoiceController {
     
     @PostMapping("/api/invoice")
     @ResponseBody
-    public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
+    public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice, HttpSession session) {
+        String username = (String) session.getAttribute("username");
         Invoice saved = invoiceService.createInvoice(invoice);
+        auditService.log("INVOICE", saved.getId(), "CREATE", username, "Invoice created: " + saved.getInvoiceNumber());
         return ResponseEntity.ok(saved);
     }
     
@@ -92,5 +95,41 @@ public class InvoiceController {
         model.addAttribute("year", year);
         model.addAttribute("toName", toName);
         return "invoice-list";
+    }
+    
+    @GetMapping("/invoice/{id}/pdf")
+    public ResponseEntity<byte[]> downloadPdf(@PathVariable Long id, HttpSession session) {
+        String userType = (String) session.getAttribute("userType");
+        if (!"admin".equals(userType) && !"accountant".equals(userType)) {
+            return ResponseEntity.status(403).build();
+        }
+        
+        Invoice invoice = invoiceService.getInvoice(id);
+        byte[] pdf = pdfService.generateInvoicePdf(invoice);
+        
+        return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=invoice-" + invoice.getInvoiceNumber() + ".pdf")
+            .contentType(MediaType.APPLICATION_PDF)
+            .body(pdf);
+    }
+    
+    @GetMapping("/invoice/{id}/history")
+    public String viewHistory(@PathVariable Long id, HttpSession session, Model model) {
+        if (session.getAttribute("userId") == null) return "redirect:/user/login";
+        model.addAttribute("invoice", invoiceService.getInvoice(id));
+        model.addAttribute("history", auditService.getEntityHistory("INVOICE", id));
+        return "invoice-history";
+    }
+    
+    @GetMapping("/api/clients/search")
+    @ResponseBody
+    public ResponseEntity<List<?>> searchClients(@RequestParam String query) {
+        return ResponseEntity.ok(clientService.searchClients(query));
+    }
+    
+    @GetMapping("/api/users/search")
+    @ResponseBody
+    public ResponseEntity<List<?>> searchUsers(@RequestParam String query) {
+        return ResponseEntity.ok(userService.searchUsers(query));
     }
 }
