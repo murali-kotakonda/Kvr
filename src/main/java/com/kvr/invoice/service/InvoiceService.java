@@ -2,8 +2,9 @@ package com.kvr.invoice.service;
 
 import com.kvr.invoice.model.Invoice;
 import com.kvr.invoice.model.InvoiceItem;
+import com.kvr.invoice.model.User;
+import com.kvr.invoice.model.Client;
 import com.kvr.invoice.repository.InvoiceRepository;
-import com.kvr.invoice.util.NumberToWordsUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
+    private final EmailService emailService;
+    private final UserService userService;
+    private final ClientService clientService;
     
     @Transactional
     public Invoice createInvoice(Invoice invoice) {
@@ -29,7 +33,27 @@ public class InvoiceService {
             savedInvoice = invoiceRepository.save(savedInvoice);
         }
         
+        // Send emails if email IDs are available
+        sendInvoiceEmails(savedInvoice);
+        
         return savedInvoice;
+    }
+    
+    private void sendInvoiceEmails(Invoice invoice) {
+        // Send to seller
+        User seller = userService.getUserByUsername(invoice.getFromName());
+        if (seller != null && seller.getEmailId() != null && !seller.getEmailId().isEmpty()) {
+            emailService.sendInvoiceEmail(invoice, seller.getEmailId(), invoice.getFromName(), true);
+        }
+        
+        // Send to buyer
+        List<Client> clients = clientService.searchClients(invoice.getToName());
+        if (!clients.isEmpty()) {
+            Client buyer = clients.get(0);
+            if (buyer.getEmailId() != null && !buyer.getEmailId().isEmpty()) {
+                emailService.sendInvoiceEmail(invoice, buyer.getEmailId(), invoice.getToName(), false);
+            }
+        }
     }
     
     public Invoice getInvoice(Long id) {
