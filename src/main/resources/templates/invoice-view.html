@@ -8,7 +8,7 @@
     <style>
         @media print {
             .letterhead-space {
-                height: 120px;
+                height: 150px;
                 display: block;
             }
             body {
@@ -85,10 +85,10 @@
     </style>
 </head>
 <body>
-    <div class="letterhead-space" style="display: none;"></div>
+    <div class="letterhead-space"></div>
     <div class="container invoice-view">
         <div class="invoice-header">
-            <h1>TAX INVOICE</h1>
+            <h1 style="text-align: center; margin-top: 0;">TAX INVOICE</h1>
             <div class="invoice-info">
                 <p><strong>Invoice No:</strong> <span th:text="${invoice.invoiceNumber}"></span></p>
                 <p><strong>Date:</strong> <span th:text="${invoice.invoiceDate}"></span></p>
