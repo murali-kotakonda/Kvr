@@ -99,18 +99,17 @@ public class InvoiceController {
     
     @GetMapping("/invoice/{id}/pdf")
     public ResponseEntity<byte[]> downloadPdf(@PathVariable Long id, HttpSession session) {
-        String userType = (String) session.getAttribute("userType");
-        if (!"admin".equals(userType) && !"accountant".equals(userType)) {
-            return ResponseEntity.status(403).build();
+        try {
+            Invoice invoice = invoiceService.getInvoice(id);
+            byte[] pdf = pdfService.generateInvoicePdf(invoice);
+            
+            return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=invoice-" + invoice.getInvoiceNumber() + ".pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
-        
-        Invoice invoice = invoiceService.getInvoice(id);
-        byte[] pdf = pdfService.generateInvoicePdf(invoice);
-        
-        return ResponseEntity.ok()
-            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=invoice-" + invoice.getInvoiceNumber() + ".pdf")
-            .contentType(MediaType.APPLICATION_PDF)
-            .body(pdf);
     }
     
     @GetMapping("/invoice/{id}/history")

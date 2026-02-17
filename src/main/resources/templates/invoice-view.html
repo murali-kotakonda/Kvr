@@ -156,11 +156,8 @@
 
         <div class="actions">
             <button onclick="window.print()" class="btn">Print Invoice</button>
-            <a th:if="${session.userType == 'admin' || session.userType == 'accountant'}" th:href="@{/invoice/{id}/pdf(id=${invoice.id})}" class="btn btn-primary">Download PDF</a>
-           <!-- <a th:if="${session.userType == 'admin'}" th:href="@{/invoice/{id}/history(id=${invoice.id})}" class="btn">View History</a>  -->
+            <a th:href="@{/invoice/{id}/pdf(id=${invoice.id})}" class="btn btn-primary">Download PDF</a>
             <a href="/invoices" class="btn">Back to List</a>
         </div>
-    </div>
-    <script th:replace="~{fragments/header :: menuScript}"></script>
 </body>
 </html>
