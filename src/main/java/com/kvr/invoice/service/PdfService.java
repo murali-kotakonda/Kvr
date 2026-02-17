@@ -30,6 +30,9 @@ public class PdfService {
             Document document = new Document(pdf);
             document.setMargins(30, 30, 30, 30);
             
+            // Add 5 lines space for letterhead
+            document.add(new Paragraph("\n\n\n\n\n"));
+            
             // Header
             Paragraph header = new Paragraph("TAX INVOICE")
                 .setBold()
