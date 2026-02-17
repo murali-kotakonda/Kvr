@@ -1,4 +1,5 @@
 @echo off
 cd /d c:\Users\MURALI\Documents\GitHub\Kvr
-mvn clean install
-mvn spring-boot:run
+call mvn clean install
+call mvn spring-boot:run
+pause
